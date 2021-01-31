@@ -9,8 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import android.widget.TextView;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,15 +26,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        runTemp();
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // TODO: "Переставить вызов функции runTemp в нужное место, оно здесь быть не должно" 31.01.2021
+        runTemp();
+
         return true;
     }
 
@@ -82,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void runTemp() {
-
         final TextView tempView=(TextView)findViewById(R.id.text_temperature);
         final TextView cityView=(TextView)findViewById(R.id.text_city);
         final TextView dateView=(TextView)findViewById(R.id.text_date);
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         tableWth=page.selectFirst("div.tab-weather");
         tempWth=page.selectFirst("span[class=js_value tab-weather__value_l]");
         String temperature=tempWth.text();
-        tempView.setText(temperature + " °");
+        tempView.setText(temperature + "°");
 
         Date date = new Date();
         dateView.setText(sdf.format(date));
