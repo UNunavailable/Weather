@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         // TODO: "Переставить вызов функции runTemp в нужное место, оно здесь быть не должно" 31.01.2021
-        runTemp();
+        ParseAndSet();
 
         return true;
     }
@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private static Document getPage() {
-        String url="https://www.gismeteo.ru/weather-almetevsk-11940/";
+    private static Document getPage(String url) {
         final Document[] page = {null}; // idk why, but it needs to be final one-array document
 
         // creating new thread for pulling url page
@@ -80,16 +79,21 @@ public class MainActivity extends AppCompatActivity {
         return page[0];
     }
 
-    private void runTemp() {
-        final TextView tempView=(TextView)findViewById(R.id.text_temperature);
-        final TextView cityView=(TextView)findViewById(R.id.text_city);
-        final TextView dateView=(TextView)findViewById(R.id.text_date);
+    private void ParseAndSet() {
+        final TextView tempView = (TextView)findViewById(R.id.text_temperature);
+        final TextView cityView = (TextView)findViewById(R.id.text_city);
+        final TextView dateView = (TextView)findViewById(R.id.text_date);
         final DateFormat sdf = new SimpleDateFormat("MM.dd.yyyy HH:mm");
+
+        String url = "";
         Document page = null;
         Element tableWth = null;
         Element tempWth = null;
 
-        page=getPage();
+        url = getUrlFromCity(getCityName());
+        url = "https://www.gismeteo.ru/weather-almetevsk-11940/";
+
+        page=getPage(url);
         tableWth=page.selectFirst("div.tab-weather");
         tempWth=page.selectFirst("span[class=js_value tab-weather__value_l]");
         String temperature=tempWth.text();
@@ -97,5 +101,13 @@ public class MainActivity extends AppCompatActivity {
 
         Date date = new Date();
         dateView.setText(sdf.format(date));
+    }
+
+    private String getCityName() {
+        return null;
+    }
+
+    private String getUrlFromCity(String City) {
+        return null;
     }
 }
