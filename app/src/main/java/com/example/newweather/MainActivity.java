@@ -13,6 +13,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         Element tempWth = null;
 
         url = getUrlFromCity(getCityName());
-        url = "https://www.gismeteo.ru/weather-almetevsk-11940/";
+
 
         page=getPage(url);
         tableWth=page.selectFirst("div.tab-weather");
@@ -104,10 +106,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getCityName() {
-        return null;
+        return "Альметьевск";
     }
 
-    private String getUrlFromCity(String City) {
-        return null;
+    private String getUrlFromCity(String city) {
+        String url = "";
+        String urlCity = "";
+        Document page = null;
+        Element link = null;
+
+        try {
+            url = "https://www.gismeteo.ru/search/" + URLEncoder.encode(city, "UTF-8") + "/";
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        page=getPage(url);
+        link = page.selectFirst("div.catalog_item").selectFirst("a[href]");
+        urlCity = link.attr("href");
+        url = "https://www.gismeteo.ru"+ urlCity + "/";
+        return url;
     }
 }
