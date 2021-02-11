@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
         url = getUrlFromCity(getCityName());
 
-
         page=getPage(url);
         tableWth=page.selectFirst("div.tab-weather");
         tempWth=page.selectFirst("span[class=js_value tab-weather__value_l]");
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getCityName() {
-        return "Альметьевск";
+        return "Москва";
     }
 
     private String getUrlFromCity(String city) {
@@ -116,13 +115,19 @@ public class MainActivity extends AppCompatActivity {
         Element link = null;
 
         try {
-            url = "https://www.gismeteo.ru/search/" + URLEncoder.encode(city, "UTF-8") + "/";
+            url = "https://www.gismeteo.ru/search/" + URLEncoder.encode(city, "UTF-8") + "/";  // Encode city name into utf-8
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
         page=getPage(url);
-        link = page.selectFirst("div.catalog_item").selectFirst("a[href]");
+        String text = page.selectFirst("div.flexbox").selectFirst("h2").text();
+        if (text.charAt(0)=='А') {                                                                  // Check if there is airport section
+            link = page.selectFirst("div.flexbox")
+                    .select(".catalog_block").get(1).selectFirst("a[href]");               // If there is, select second section
+        } else {
+            link = page.selectFirst("div.catalog_item").selectFirst("a[href]");                     // else, select first section
+        }
         urlCity = link.attr("href");
         url = "https://www.gismeteo.ru"+ urlCity + "/";
         return url;
