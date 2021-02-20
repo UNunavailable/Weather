@@ -5,8 +5,13 @@ package com.example.newweather;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -35,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        // TODO: "Переставить вызов функции runTemp в нужное место, оно здесь быть не должно" 31.01.2021
-        ParseAndSet();
+        NavController temp = Navigation.findNavController(this, R.id.load_screen);
+        temp.navigate(R.id.to_main_screen);
 
         return true;
     }
@@ -54,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void Start() {
+        ParseAndSet();
     }
 
     private static Document getPage(String url) {
@@ -89,13 +98,11 @@ public class MainActivity extends AppCompatActivity {
 
         String url = "";
         Document page = null;
-        Element tableWth = null;
         Element tempWth = null;
 
         url = getUrlFromCity(getCityName());
 
         page=getPage(url);
-        tableWth=page.selectFirst("div.tab-weather");
         tempWth=page.selectFirst("span[class=js_value tab-weather__value_l]");
         String temperature=tempWth.text();
         tempView.setText(temperature + "°");
@@ -129,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             link = page.selectFirst("div.catalog_item").selectFirst("a[href]");                     // else, select first section
         }
         urlCity = link.attr("href");
-        url = "https://www.gismeteo.ru"+ urlCity + "/";
+        url = "https://www.gismeteo.ru"+ urlCity;
         return url;
     }
 }

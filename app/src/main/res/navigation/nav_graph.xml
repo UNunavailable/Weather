@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/loading_screen">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -11,6 +11,15 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
+    </fragment>
+    <fragment
+        android:id="@+id/loading_screen"
+        android:name="com.example.newweather.loading_screen"
+        android:label="fragment_loading_screen"
+        tools:layout="@layout/fragment_loading_screen" >
+        <action
+            android:id="@+id/to_main_screen"
+            app:destination="@id/FirstFragment" />
     </fragment>
 
 </navigation>
