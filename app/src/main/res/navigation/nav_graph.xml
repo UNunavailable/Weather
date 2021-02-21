@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.newweather.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:name="com.example.newweather.WeatherFragment"
+        android:label="@string/weather_fragment"
+        tools:layout="@layout/fragment_weather">
 
     </fragment>
     <fragment
         android:id="@+id/loading_screen"
-        android:name="com.example.newweather.loading_screen"
+        android:name="com.example.newweather.LoadingScreen"
         android:label="fragment_loading_screen"
         tools:layout="@layout/fragment_loading_screen" >
         <action

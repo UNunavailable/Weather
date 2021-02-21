@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Погода</string>
-    <string name="choose_city">Выбрать город</string>
-    <string name="first_fragment_label">First fragment</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Загрузка</string>
+    <string name="change_city">Выбрать город</string>
+    <string name="weather_fragment">First fragment</string>
+
+    <string name="hello_fragment">Загрузка</string>
 </resources>
