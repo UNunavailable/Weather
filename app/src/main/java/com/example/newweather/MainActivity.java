@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import androidx.fragment.app.Fragment;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -62,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeCity(String city) {
-        WeatherFragment wf = (WeatherFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_weather);
+        Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        WeatherFragment wf = (WeatherFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
         wf.changeCity(city);
         new CityPreference(this).setCity(city);
     }
