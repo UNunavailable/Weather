@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     public void changeCity(String city) {
         Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         WeatherFragment wf = (WeatherFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
-        wf.changeCity(city);
         new CityPreference(this).setCity(city);
+        wf.changeCity(city);
     }
 }
