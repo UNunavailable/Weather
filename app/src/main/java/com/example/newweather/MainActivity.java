@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 
 public class MainActivity extends AppCompatActivity {
+    View weather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        NavController temp = Navigation.findNavController(this, R.id.load_screen);
-        temp.navigate(R.id.to_main_screen);
-
+        Navigation.findNavController(this, R.id.load_screen).navigate(R.id.to_main_screen);
         return true;
     }
 

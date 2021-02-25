@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import org.jsoup.Jsoup;
 
@@ -22,6 +23,7 @@ public class WeatherFragment extends Fragment {
     TextView dateView;
     DateFormat sdf;
     Date date;
+    Thread pull;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,24 +34,29 @@ public class WeatherFragment extends Fragment {
         dateView = (TextView)rootView.findViewById(R.id.text_date);
         sdf = new SimpleDateFormat("dd.MM HH:mm");
 
+        ParseAndSet(getCityName());
+        try {
+            pull.join();                                                                            // Ожидание загрузки ParseAndSet()
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return rootView;
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ParseAndSet(getCityName());
     }
 
     private void ParseAndSet(String city) {
-        final Handler h = new Handler();                                                            // Создаём Handler в главном потоке.
+        final Handler finish = new Handler();                                                       // Создаём Handler в главном потоке.
                                                                                                     // Он будет выполнять заданный ему код из главного потока когда придёт сообщение.
-        Thread pull = new Thread() {                                                                // Создаём поток и прописываем ему функцию.
+        pull = new Thread() {                                                                // Создаём поток и прописываем ему функцию.
             @Override
             public void run() {
                 Parser parser = new Parser();
                 String temperature=parser.getTemperature(city, "gismeteo");
 
-                h.post(new Runnable() {                                                             // Задаём код Handler'у и отправляем сообщение.
+                finish.post(new Runnable() {                                                        // Задаём код Handler'у и отправляем сообщение.
                     @Override
                     public void run() {
                         tempView.setText(temperature + "°");
