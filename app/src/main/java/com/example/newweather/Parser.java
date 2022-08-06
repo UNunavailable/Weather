@@ -36,8 +36,8 @@ public class Parser {
 
     public String getTemperature(String city, String site) {
         Document page=getPage(getUrlFromCity(city));
-        Element tempWth=page.selectFirst("span[class=js_value tab-weather__value_l]");
-        String temperature=tempWth.text();
+        Element temperatureElement=page.selectFirst("span[class=unit unit_temperature_c]");
+        String temperature=temperatureElement.text();
         return temperature;
     }
 
@@ -54,14 +54,7 @@ public class Parser {
         }
 
         page=getPage(url);
-        String text = page.selectFirst("div.flexbox").selectFirst("h2").text();
-        if (text.charAt(0)=='А') {                                                                  // Check if there is airport section
-            link = page.selectFirst("div.flexbox")
-                    .select(".catalog_block").get(1).selectFirst("a[href]");               // If there is, select second section
-        } else {
-            link = page.selectFirst("div.catalog_item").selectFirst("a[href]");                     // else, select first section
-        }
-        urlCity = link.attr("href");
+        urlCity = page.selectFirst("div.catalog-item-link").selectFirst("a").attr("href");
         url = "https://www.gismeteo.ru"+ urlCity;
         return url;
     }
